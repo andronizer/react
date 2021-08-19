@@ -1,6 +1,7 @@
 import React from "react";
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
+import axios from 'axios'
 
 const LoginForm = () => {
   const {handleSubmit, handleChange, values, touched, errors, handleBlur} = useFormik({
@@ -9,16 +10,31 @@ const LoginForm = () => {
       password: ''
     },
     validationSchema: Yup.object({
-      email: Yup.string().max(10, 'Email must be shorter than 10 characters').required('Required'),
-      password: Yup.string().min(6, 'Password should be longer than 6 characters').required()
+      email: Yup.string().max(20, 'Email must be shorter than 20 characters').required('Required'),
+      password: Yup.string().min(5, 'Password should be longer than 5 characters').required()
     }),
     onSubmit: ({email, password}) => {
-      alert(`Email: ${email}, password: ${password}`);
+      axios({
+        method: 'post',
+        url: 'http://localhost:8080/api/login',
+        data: {
+          email: 'andronizer@mail.ru',
+          password: '12345678'
+        }
+      }).then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   })
 
   return (
     <form onSubmit={handleSubmit}>      
+     <header>
+       <h1>Welcome to Todo App! Log in, please!</h1>
+     </header>
       <label htmlFor="email">Email</label>
       <input
         value={values.email}
