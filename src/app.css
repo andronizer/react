@@ -1,0 +1,37 @@
+.header {
+    margin: 0;
+    padding: 15px;
+}
+.title {    
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    color: rgb(207, 4, 116);
+}
+.input_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.input_email {
+    padding: 10px;
+}
+.input_password {
+    padding: 10px;
+}
+.input_button {
+    width: 100px;
+    height: 40px;
+    background: #0a61f7;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
