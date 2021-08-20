@@ -51,7 +51,7 @@
     "arrow-parens": [ "warn", "as-needed" ],
     "arrow-body-style": [ "warn", "as-needed" ],
     "no-trailing-spaces": "warn",
-    "quotes": [ "warn", "single", {
+    "quotes": [ "warn", "double", {
       "allowTemplateLiterals": true
     }],
     "space-before-function-paren": ["error", {
