@@ -2,24 +2,27 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import "./login-form.css";
-import { saveTokenInLocalStorage } from "../app/service";
 import { Redirect, useHistory } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
 import Button from "../button/Button";
 import { Input } from "../input/Input";
+import "./signup.css";
 
-const LoginForm = () => {
-  const [isLogin, setIsLogin] = useState(false);
+const Signup = () => {
+  const [isRegistered, setRegister] = useState(false);
   const history = useHistory();
 
   const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
     useFormik({
       initialValues: {
+        name: "",
         email: "",
         password: "",
       },
       validationSchema: Yup.object({
+        name: Yup.string()
+          .max(15, "Name must be shorter than 15 characters")
+          .required(),
         email: Yup.string()
           .max(20, "Email must be shorter than 20 characters")
           .required(),
@@ -27,19 +30,19 @@ const LoginForm = () => {
           .min(5, "Password should be longer than 5 characters")
           .required(),
       }),
-      onSubmit: ({ email, password }) => {
+      onSubmit: ({ name, email, password }) => {
         axios({
           method: "post",
-          url: "http://localhost:8080/api/signin",
+          url: "http://localhost:8080/api/signup",
           data: {
+            name: name,
             email: email,
             password: password,
           },
         })
           .then((response) => {
             console.log(response.status);
-            saveTokenInLocalStorage(response.data);
-            setIsLogin(true);
+            setRegister(true);
           })
           .catch(function (error) {
             console.log(error);
@@ -47,15 +50,30 @@ const LoginForm = () => {
       },
     });
 
-  if (isLogin) {
+  if (isRegistered) {
     return <Redirect to={"/main"} />;
   }
 
   return (
     <div className={"loginWrapper"}>
-      <AppHeader>Hi! I'm Todooster!</AppHeader>
+      <AppHeader>Sign Up, Please!</AppHeader>
       <form onSubmit={handleSubmit}>
         <div className={"input_container"}>
+          <div className={"inputWrappeer"}>
+            <Input
+              className={"input"}
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              id={"name"}
+              name={"name"}
+              type={"text"}
+              placeholder={"nickname"}
+            />
+            {touched.name && errors.name ? (
+              <div className={"requiredStyle"}>{errors.name}</div>
+            ) : null}
+          </div>
           <div className={"inputWrappeer"}>
             <Input
               className={"input"}
@@ -88,11 +106,9 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="buttonWrapper">
-          <Button className={"buttonLogin"} type={"submit"}>
+          <Button className={"buttonSignup"}>Sign Up</Button>
+          <Button type={"button"} onClick={() => history.push("/login")}>
             Log In
-          </Button>
-          <Button type={"button"} onClick={() => history.push("/signup")}>
-            Sign Up
           </Button>
         </div>
       </form>
@@ -100,4 +116,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Signup;

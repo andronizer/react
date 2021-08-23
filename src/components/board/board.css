@@ -1,0 +1,15 @@
+.newBoard {
+  display: flex;
+  width: 500px;
+  background: #fffaf2;
+  border: 1px solid #dddddd;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  margin: 8px;
+  padding: 30px;
+}
+.boardButton {
+  background: #c47344;
+  margin-top: 20px;
+}

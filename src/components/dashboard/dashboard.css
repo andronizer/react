@@ -1,0 +1,27 @@
+.headerWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1200px;
+  border-radius: 10px;
+  padding-bottom: 25px;
+  margin-bottom: 10px;
+  background: #fffaf2;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.08);
+}
+
+.headerText {
+  margin: 25px 0;
+}
+.headerButton {
+  background: #c47344;
+  margin-bottom: 20px;
+}
+.boardsWrapper {
+  width: 1200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}

@@ -1,12 +1,8 @@
 import React from "react";
 import "./app-header.css";
 
-const AppHeader = () => {
-  return (
-    <header className="header">
-      <h1 className="title">Welcome to Todo App! Log in, please!</h1>
-    </header>
-  );
+const AppHeader = ({ className, children }) => {
+  return <h1 className={className}>{children}</h1>;
 };
 
 export default AppHeader;

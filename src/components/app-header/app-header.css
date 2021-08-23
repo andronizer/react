@@ -1,10 +1,11 @@
-.header {
-    margin: 0;
-    padding: 15px;
-}
-.title {    
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    color: rgb(207, 4, 116);
+h1 {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  color: #322f2e;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 110px;
+  line-height: 119px;
+  text-align: center;
 }
