@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Button from "../button/Button";
+import "../app/service";
 
 const Board = () => {
   const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
@@ -22,14 +23,18 @@ const Board = () => {
           .required(),
       }),
       onSubmit: ({ title, tasks }) => {
-        axios({
-          method: "post",
-          url: "http://localhost:8080/api/dashboard",
-          data: {
-            title: title,
-            tasks: tasks,
-          },
-        })
+        const token = localStorage.getItem("userDetails");
+        console.log(token);
+        const config = {
+          headers: { authorization: `Bearer ${token}` },
+        };
+        console.log(config);
+        let bodyParameters = {
+          title: title,
+          tasks: tasks,
+        };
+        axios
+          .post("http://localhost:8080/api/dashboard", bodyParameters, config)
           .then((response) => {
             console.log(response.status);
           })

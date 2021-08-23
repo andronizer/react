@@ -1,6 +1,5 @@
 import "../login-form/login-form";
 
 export function saveTokenInLocalStorage(tokenDetails) {
-  localStorage.setItem("userDetails", JSON.stringify(tokenDetails));
+  localStorage.setItem("userDetails", tokenDetails.token);
 }
-// const token = localStorage.getItem("userDetails");
