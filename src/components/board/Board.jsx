@@ -24,11 +24,9 @@ const Board = () => {
       }),
       onSubmit: ({ title, tasks }) => {
         const token = localStorage.getItem("userDetails");
-        console.log(token);
         const config = {
           headers: { authorization: `Bearer ${token}` },
         };
-        console.log(config);
         let bodyParameters = {
           title: title,
           tasks: tasks,
