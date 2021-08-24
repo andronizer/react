@@ -19,8 +19,8 @@
         "arrays": "always-multiline",
         "objects": "always-multiline",
         "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "always-multiline"
+        "exports": "never",
+        "functions": "never"
       }
     ],
     "curly": "warn",
@@ -54,8 +54,8 @@
         "comments": 140
       }
     ],
-    "arrow-parens": ["warn", "as-needed"],
-    "arrow-body-style": ["warn", "as-needed"],
+    "arrow-parens": ["off", "as-needed"],
+    "arrow-body-style": ["off", "as-needed"],
     "no-trailing-spaces": "warn",
     "quotes": [
       "warn",

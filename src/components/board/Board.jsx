@@ -6,30 +6,34 @@ import * as Yup from "yup";
 import axios from "axios";
 import Button from "../button/Button";
 import "../app/service";
+import Status from "../status-filter/Status";
+import Search from "../search-panel/Search";
+import TodoList from "../todo-list/TodoList";
 
 const Board = () => {
+  const todoData = [
+    { label: "Drink Tea", important: false, id: 1 },
+    { label: "Study Hard", important: false, id: 2 },
+    { label: "Sleep Well", important: false, id: 3 },
+  ];
+
   const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
     useFormik({
       initialValues: {
         title: "",
-        tasks: "",
       },
       validationSchema: Yup.object({
         title: Yup.string()
           .max(15, "Title must be shorter than 15 characters")
           .required(),
-        tasks: Yup.string()
-          .min(5, "Task should be longer than 5 characters")
-          .required(),
       }),
-      onSubmit: ({ title, tasks }) => {
+      onSubmit: ({ title }) => {
         const token = localStorage.getItem("userDetails");
         const config = {
           headers: { authorization: `Bearer ${token}` },
         };
         let bodyParameters = {
           title: title,
-          tasks: tasks,
         };
         axios
           .post("http://localhost:8080/api/dashboard", bodyParameters, config)
@@ -44,9 +48,9 @@ const Board = () => {
 
   return (
     <div className="newBoard">
-      <form onSubmit={handleSubmit}>
+      <form className="formStyle" onSubmit={handleSubmit}>
         <Input
-          className={"input"}
+          className={"titleInput"}
           value={values.title}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -58,20 +62,11 @@ const Board = () => {
         {touched.title && errors.title ? (
           <div className={"requiredStyle"}>{errors.title}</div>
         ) : null}
-
-        <Input
-          className={"input"}
-          value={values.tasks}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          id={"tasks"}
-          name={"tasks"}
-          type={"text"}
-          placeholder={"Dashboard Tasks"}
-        />
-        {touched.tasks && errors.tasks ? (
-          <div className={"requiredStyle"}>{errors.tasks}</div>
-        ) : null}
+        <div className="searchButtons">
+          <Search />
+          <Status />
+        </div>
+        <TodoList todos={todoData} />
         <Button className={"boardButton"} type={"submit"}>
           Create
         </Button>

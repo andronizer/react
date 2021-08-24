@@ -1,0 +1,20 @@
+.itemButton {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  margin: 0 2px;
+}
+.todoItem {
+  width: 408px;
+  height: 40px;
+  background: #ffffff;
+  box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: 2px 0;
+  padding: 5px 5px 5px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #322f2e;
+  font-size: 15px;
+}

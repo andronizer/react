@@ -13,3 +13,10 @@
   background: #c47344;
   margin-top: 20px;
 }
+.searchButtons {
+  display: flex;
+  justify-content: space-between;
+}
+.titleInput {
+  width: 414px;
+}
