@@ -13,10 +13,81 @@
   background: #c47344;
   margin-top: 20px;
 }
-.searchButtons {
-  display: flex;
-  justify-content: space-between;
-}
+
 .titleInput {
   width: 414px;
+}
+.addTask {
+  height: 35px;
+  width: 320px;
+  background: none;
+}
+.addButton {
+  width: 80px;
+  height: 35px;
+  background: #c47344;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 2px;
+}
+.addTaskWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.item {
+  height: 50px;
+  width: 431px;
+  background: #ffffff;
+  box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  margin: 5px;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #322f2e;
+  font-weight: bold;
+}
+.icon {
+  width: 25px;
+}
+.buttonDeleteDone {
+  width: 50px;
+  height: 35px;
+  background: #f9a38f;
+  border-radius: 10px;
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+}
+.buttonsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fall {
+  transform: translateY(10rem) rotateZ(20deg);
+  opacity: 0;
 }

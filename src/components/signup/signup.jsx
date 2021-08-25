@@ -106,7 +106,9 @@ const Signup = () => {
           </div>
         </div>
         <div className="buttonWrapper">
-          <Button className={"buttonSignup"}>Sign Up</Button>
+          <Button type="submit" className={"buttonSignup"}>
+            Sign Up
+          </Button>
           <Button type={"button"} onClick={() => history.push("/login")}>
             Log In
           </Button>

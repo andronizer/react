@@ -6,16 +6,33 @@ import * as Yup from "yup";
 import axios from "axios";
 import Button from "../button/Button";
 import "../app/service";
-import Status from "../status-filter/Status";
-import Search from "../search-panel/Search";
-import TodoList from "../todo-list/TodoList";
+import DeleteIcon from "../../img/delete.svg";
+import DoneIcon from "../../img/done.svg";
+// import Status from "../status-filter/Status";
 
 const Board = () => {
-  const todoData = [
-    { label: "Drink Tea", important: false, id: 1 },
-    { label: "Study Hard", important: false, id: 2 },
-    { label: "Sleep Well", important: false, id: 3 },
-  ];
+  const [currentInput, setCurrentInput] = React.useState("");
+  const [list, setList] = React.useState([]);
+
+  const AddTodo = (event) => {
+    event.preventDefault();
+    const newList = list;
+    newList.unshift({ content: currentInput, isCompleted: false });
+    setList([...newList]);
+    setCurrentInput("");
+  };
+
+  const deleteTodo = (index) => {
+    let newList = list;
+    newList.splice(index, 1);
+    setList([...newList]);
+  };
+
+  const completedTask = (index) => {
+    let newList = list;
+    newList[index].isCompleted = !newList[index].isCompleted;
+    setList([...newList]);
+  };
 
   const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
     useFormik({
@@ -62,11 +79,48 @@ const Board = () => {
         {touched.title && errors.title ? (
           <div className={"requiredStyle"}>{errors.title}</div>
         ) : null}
-        <div className="searchButtons">
-          <Search />
-          <Status />
+        <div className="addTaskWrapper">
+          <input
+            className={"addTask"}
+            placeholder={"add your task"}
+            onChange={(event) => {
+              setCurrentInput(event.target.value);
+            }}
+            value={currentInput}
+          />
+          <Button onClick={AddTodo} className={"addButton"}>
+            Add
+          </Button>
         </div>
-        <TodoList todos={todoData} />
+        {list.map(({ content, isCompleted }, index) => {
+          return (
+            <div className={"item"}>
+              <div
+                style={{
+                  textDecoration: isCompleted ? "line-through" : "none",
+                }}
+              >
+                {content}
+              </div>
+              <span className="buttonsWrapper">
+                <button
+                  className={"buttonDeleteDone"}
+                  onClick={() => {
+                    completedTask(index);
+                  }}
+                >
+                  <img src={DoneIcon} className={"icon"} />
+                </button>
+                <button
+                  className={"buttonDeleteDone"}
+                  onClick={() => deleteTodo(index)}
+                >
+                  <img src={DeleteIcon} className={"icon"} />
+                </button>
+              </span>
+            </div>
+          );
+        })}
         <Button className={"boardButton"} type={"submit"}>
           Create
         </Button>
