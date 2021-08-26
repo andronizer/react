@@ -109,7 +109,7 @@ const Signup = () => {
           <Button type="submit" className={"buttonSignup"}>
             Sign Up
           </Button>
-          <Button type={"button"} onClick={() => history.push("/login")}>
+          <Button type={"button"} onClick={() => history.push("/")}>
             Log In
           </Button>
         </div>

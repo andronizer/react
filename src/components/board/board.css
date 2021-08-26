@@ -91,3 +91,25 @@
   transform: translateY(10rem) rotateZ(20deg);
   opacity: 0;
 }
+.btn {
+  width: 145px;
+  height: 35px;
+  background: #f9a38f;
+  border-radius: 10px;
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 2px;
+}
+.buttonsGroup {
+  width: 435px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 2px 5px 4px;
+}

@@ -8,7 +8,7 @@ import "./app.css";
 const App = () => {
   return (
     <div className="signin">
-      <Route path={"/login"} render={() => <LoginForm />} />
+      <Route exact path={"/"} render={() => <LoginForm />} />
       <Route path={"/main"} render={() => <Dashboard />} />
       <Route path={"/signup"} render={() => <Signup />} />
     </div>

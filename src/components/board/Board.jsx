@@ -8,28 +8,39 @@ import Button from "../button/Button";
 import "../app/service";
 import DeleteIcon from "../../img/delete.svg";
 import DoneIcon from "../../img/done.svg";
-// import Status from "../status-filter/Status";
 
 const Board = () => {
   const [currentInput, setCurrentInput] = React.useState("");
   const [list, setList] = React.useState([]);
+  const [filtered, setFiltered] = React.useState(list);
+
+  const todoFilter = (isCompleted) => {
+    if (isCompleted === "all") {
+      return setFiltered(list);
+    } else {
+      let newTodo = [...list].filter(
+        (item) => item.isCompleted === isCompleted
+      );
+      return setFiltered(newTodo);
+    }
+  };
 
   const AddTodo = (event) => {
     event.preventDefault();
-    const newList = list;
+    const newList = filtered;
     newList.unshift({ content: currentInput, isCompleted: false });
     setList([...newList]);
     setCurrentInput("");
   };
 
   const deleteTodo = (index) => {
-    let newList = list;
+    let newList = filtered;
     newList.splice(index, 1);
     setList([...newList]);
   };
 
   const completedTask = (index) => {
-    let newList = list;
+    let newList = filtered;
     newList[index].isCompleted = !newList[index].isCompleted;
     setList([...newList]);
   };
@@ -79,6 +90,29 @@ const Board = () => {
         {touched.title && errors.title ? (
           <div className={"requiredStyle"}>{errors.title}</div>
         ) : null}
+        <div className="buttonsGroup">
+          <button
+            onClick={() => todoFilter("all")}
+            type="button"
+            className="btn btnAll"
+          >
+            All
+          </button>
+          <button
+            onClick={() => todoFilter(true)}
+            type="button"
+            className="btn btnInfo"
+          >
+            Completed
+          </button>
+          <button
+            onClick={() => todoFilter(false)}
+            type="button"
+            className="btn btnInfo"
+          >
+            Uncompleted
+          </button>
+        </div>
         <div className="addTaskWrapper">
           <input
             className={"addTask"}
@@ -88,11 +122,11 @@ const Board = () => {
             }}
             value={currentInput}
           />
-          <Button onClick={AddTodo} className={"addButton"}>
+          <Button onClick={AddTodo} className={"addButton"} type={"submit"}>
             Add
           </Button>
         </div>
-        {list.map(({ content, isCompleted }, index) => {
+        {filtered.map(({ content, isCompleted }, index) => {
           return (
             <div className={"item"}>
               <div
