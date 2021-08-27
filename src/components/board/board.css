@@ -113,3 +113,6 @@
   align-items: center;
   margin: 5px 2px 5px 4px;
 }
+.boardTitle {
+  text-align: center;
+}

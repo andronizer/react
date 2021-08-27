@@ -1,9 +1,18 @@
 import React from "react";
+import clsx from "clsx";
 import "./button.css";
 
-const Button = ({ className, children, onClick, type }) => {
+const Button = ({ children, onClick, type, color = "secondary" }) => {
   return (
-    <button className={className} onClick={onClick} type={type}>
+    <button
+      className={clsx(
+        "Button",
+        { primary: color === "primary" },
+        { secondary: color === "secondary" }
+      )}
+      onClick={onClick}
+      type={type}
+    >
       {children}
     </button>
   );

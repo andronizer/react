@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import "./login-form.css";
 import { saveTokenInLocalStorage } from "../app/service";
 import { Redirect, useHistory } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
 import Button from "../button/Button";
 import { Input } from "../input/Input";
+import apiService from "../../services/api.service";
 
 const LoginForm = () => {
   const [isLogin, setIsLogin] = useState(false);
   const history = useHistory();
+  const [err, setErr] = useState(false);
 
   const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
     useFormik({
@@ -28,14 +29,8 @@ const LoginForm = () => {
           .required(),
       }),
       onSubmit: ({ email, password }) => {
-        axios({
-          method: "post",
-          url: "http://localhost:8080/api/signin",
-          data: {
-            email: email,
-            password: password,
-          },
-        })
+        apiService
+          .post("/api/login", { email, password })
           .then((response) => {
             console.log(response.status);
             saveTokenInLocalStorage(response.data);
@@ -43,9 +38,14 @@ const LoginForm = () => {
           })
           .catch(function (error) {
             console.log(error);
+            setErr(true);
           });
       },
     });
+
+  const navigation = useCallback(() => {
+    history.push("/signup");
+  }, []);
 
   if (isLogin) {
     return <Redirect to={"/main"} />;
@@ -57,6 +57,7 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit}>
         <div className={"input_container"}>
           <div className={"inputWrappeer"}>
+            {err ? <span>Sign up, please</span> : null}
             <Input
               className={"input"}
               value={values.email}
@@ -91,7 +92,7 @@ const LoginForm = () => {
           <Button className={"buttonLogin"} type={"submit"}>
             Log In
           </Button>
-          <Button type={"button"} onClick={() => history.push("/signup")}>
+          <Button type={"button"} onClick={navigation}>
             Sign Up
           </Button>
         </div>

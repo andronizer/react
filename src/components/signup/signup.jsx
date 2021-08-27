@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Redirect, useHistory } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
 import Button from "../button/Button";
 import { Input } from "../input/Input";
 import "./signup.css";
+import apiService from "../../services/api.service";
 
 const Signup = () => {
   const [isRegistered, setRegister] = useState(false);
@@ -31,15 +31,8 @@ const Signup = () => {
           .required(),
       }),
       onSubmit: ({ name, email, password }) => {
-        axios({
-          method: "post",
-          url: "http://localhost:8080/api/signup",
-          data: {
-            name: name,
-            email: email,
-            password: password,
-          },
-        })
+        apiService
+          .post("/api/signup", { name, email, password })
           .then((response) => {
             console.log(response.status);
             setRegister(true);
@@ -53,6 +46,10 @@ const Signup = () => {
   if (isRegistered) {
     return <Redirect to={"/main"} />;
   }
+
+  const navigation = useCallback(() => {
+    history.push("/");
+  }, []);
 
   return (
     <div className={"loginWrapper"}>
@@ -109,7 +106,7 @@ const Signup = () => {
           <Button type="submit" className={"buttonSignup"}>
             Sign Up
           </Button>
-          <Button type={"button"} onClick={() => history.push("/")}>
+          <Button type={"button"} onClick={navigation}>
             Log In
           </Button>
         </div>

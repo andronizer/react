@@ -13,3 +13,9 @@ Button {
   cursor: pointer;
   margin: 0px 10px;
 }
+Button.primary {
+  background-color: blue;
+}
+Button.secondary {
+  background-color: green;
+}

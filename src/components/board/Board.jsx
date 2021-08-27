@@ -3,16 +3,18 @@ import { Input } from "../input/Input";
 import "./board.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import Button from "../button/Button";
 import "../app/service";
 import DeleteIcon from "../../img/delete.svg";
 import DoneIcon from "../../img/done.svg";
+import { useState } from "react";
+import apiService from "../../services/api.service";
 
 const Board = () => {
-  const [currentInput, setCurrentInput] = React.useState("");
-  const [list, setList] = React.useState([]);
-  const [filtered, setFiltered] = React.useState(list);
+  const [currentInput, setCurrentInput] = useState("");
+  const [list, setList] = useState([]);
+  const [filtered, setFiltered] = useState(list);
+  const [name, setName] = useState(false);
 
   const todoFilter = (isCompleted) => {
     if (isCompleted === "all") {
@@ -56,17 +58,11 @@ const Board = () => {
           .required(),
       }),
       onSubmit: ({ title }) => {
-        const token = localStorage.getItem("userDetails");
-        const config = {
-          headers: { authorization: `Bearer ${token}` },
-        };
-        let bodyParameters = {
-          title: title,
-        };
-        axios
-          .post("http://localhost:8080/api/dashboard", bodyParameters, config)
+        apiService
+          .post("/api/dashboard", { title })
           .then((response) => {
             console.log(response.status);
+            setName(true);
           })
           .catch(function (error) {
             console.log(error);
@@ -77,16 +73,20 @@ const Board = () => {
   return (
     <div className="newBoard">
       <form className="formStyle" onSubmit={handleSubmit}>
-        <Input
-          className={"titleInput"}
-          value={values.title}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          id={"title"}
-          name={"title"}
-          type={"text"}
-          placeholder={"Dashboard Title"}
-        />
+        {!name ? (
+          <Input
+            className="titleInput"
+            value={values.title}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            id={"title"}
+            name={"title"}
+            type={"text"}
+            placeholder={"Dashboard Title"}
+          />
+        ) : (
+          <h2 className={"boardTitle"}>Board Title</h2>
+        )}
         {touched.title && errors.title ? (
           <div className={"requiredStyle"}>{errors.title}</div>
         ) : null}
@@ -128,7 +128,7 @@ const Board = () => {
         </div>
         {filtered.map(({ content, isCompleted }, index) => {
           return (
-            <div className={"item"}>
+            <div className="item">
               <div
                 style={{
                   textDecoration: isCompleted ? "line-through" : "none",
@@ -138,24 +138,24 @@ const Board = () => {
               </div>
               <span className="buttonsWrapper">
                 <button
-                  className={"buttonDeleteDone"}
+                  className="buttonDeleteDone"
                   onClick={() => {
                     completedTask(index);
                   }}
                 >
-                  <img src={DoneIcon} className={"icon"} />
+                  <img src={DoneIcon} className="icon" />
                 </button>
                 <button
-                  className={"buttonDeleteDone"}
+                  className="buttonDeleteDone"
                   onClick={() => deleteTodo(index)}
                 >
-                  <img src={DeleteIcon} className={"icon"} />
+                  <img src={DeleteIcon} className="icon" />
                 </button>
               </span>
             </div>
           );
         })}
-        <Button className={"boardButton"} type={"submit"}>
+        <Button className="boardButton" type={"submit"}>
           Create
         </Button>
       </form>
