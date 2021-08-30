@@ -70,6 +70,12 @@ const Board = () => {
       },
     });
 
+  const buttons = [
+    { onClick: () => todoFilter("all"), value: "All" },
+    { onClick: () => todoFilter(true), value: "Completed" },
+    { onClick: () => todoFilter(false), value: "Uncompleted" },
+  ];
+
   return (
     <div className="newBoard">
       <form className="formStyle" onSubmit={handleSubmit}>
@@ -85,44 +91,36 @@ const Board = () => {
             placeholder={"Dashboard Title"}
           />
         ) : (
-          <h2 className={"boardTitle"}>Board Title</h2>
+          <h2 className="boardTitle">Board Title</h2>
         )}
         {touched.title && errors.title ? (
-          <div className={"requiredStyle"}>{errors.title}</div>
+          <div className="requiredStyle">{errors.title}</div>
         ) : null}
         <div className="buttonsGroup">
-          <button
-            onClick={() => todoFilter("all")}
-            type="button"
-            className="btn btnAll"
-          >
-            All
-          </button>
-          <button
-            onClick={() => todoFilter(true)}
-            type="button"
-            className="btn btnInfo"
-          >
-            Completed
-          </button>
-          <button
-            onClick={() => todoFilter(false)}
-            type="button"
-            className="btn btnInfo"
-          >
-            Uncompleted
-          </button>
+          {buttons.map((item, index) => {
+            const { onClick, value } = item;
+            return (
+              <button
+                key={index}
+                onClick={onClick}
+                type="button"
+                className="btn"
+              >
+                {value}
+              </button>
+            );
+          })}
         </div>
         <div className="addTaskWrapper">
           <input
-            className={"addTask"}
+            className="addTask"
             placeholder={"add your task"}
             onChange={(event) => {
               setCurrentInput(event.target.value);
             }}
             value={currentInput}
           />
-          <Button onClick={AddTodo} className={"addButton"} type={"submit"}>
+          <Button onClick={AddTodo} className="addButton" type={"submit"}>
             Add
           </Button>
         </div>

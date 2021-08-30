@@ -2,15 +2,19 @@ import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Redirect, useHistory } from "react-router-dom";
+import { saveTokenInLocalStorage } from "../app/service";
 import AppHeader from "../app-header/app-header";
 import Button from "../button/Button";
 import { Input } from "../input/Input";
 import "./signup.css";
 import apiService from "../../services/api.service";
+import { setIsAuthenticated } from "../../store/reducers/appSlice";
+import { useDispatch } from "react-redux";
 
 const Signup = () => {
   const [isRegistered, setRegister] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
     useFormik({
@@ -35,6 +39,8 @@ const Signup = () => {
           .post("/api/signup", { name, email, password })
           .then((response) => {
             console.log(response.status);
+            saveTokenInLocalStorage(response.data);
+            dispatch(setIsAuthenticated(true));
             setRegister(true);
           })
           .catch(function (error) {
@@ -43,67 +49,80 @@ const Signup = () => {
       },
     });
 
+  const navigation = useCallback(() => {
+    history.push("/login");
+  }, []);
+
   if (isRegistered) {
     return <Redirect to={"/main"} />;
   }
 
-  const navigation = useCallback(() => {
-    history.push("/");
-  }, []);
+  const inputs = [
+    {
+      value: values.name,
+      id: "name",
+      name: "name",
+      type: "text",
+      placeholder: "nickname",
+      errorMessage: errors.name,
+      inputTouched: touched.name,
+    },
+    {
+      value: values.email,
+      id: "email",
+      name: "email",
+      type: "text",
+      placeholder: "user@email.com",
+      errorMessage: errors.email,
+      inputTouched: touched.email,
+    },
+    {
+      value: values.password,
+      id: "password",
+      name: "password",
+      type: "password",
+      placeholder: "password123",
+      errorMessage: errors.password,
+      inputTouched: touched.password,
+    },
+  ];
 
   return (
-    <div className={"loginWrapper"}>
+    <div className="loginWrapper">
       <AppHeader>Sign Up, Please!</AppHeader>
       <form onSubmit={handleSubmit}>
-        <div className={"input_container"}>
-          <div className={"inputWrappeer"}>
-            <Input
-              className={"input"}
-              value={values.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id={"name"}
-              name={"name"}
-              type={"text"}
-              placeholder={"nickname"}
-            />
-            {touched.name && errors.name ? (
-              <div className={"requiredStyle"}>{errors.name}</div>
-            ) : null}
-          </div>
-          <div className={"inputWrappeer"}>
-            <Input
-              className={"input"}
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id={"email"}
-              name={"email"}
-              type={"text"}
-              placeholder={"user@email.com"}
-            />
-            {touched.email && errors.email ? (
-              <div className={"requiredStyle"}>{errors.email}</div>
-            ) : null}
-          </div>
-          <div className={"inputWrappeer"}>
-            <Input
-              className="input"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id="password"
-              name="password"
-              type="password"
-              placeholder="password123"
-            />
-            {touched.password && errors.password ? (
-              <div className={"requiredStyle"}>{errors.password}</div>
-            ) : null}
-          </div>
+        <div className="inputWrapper">
+          {inputs.map((item, index) => {
+            const {
+              value,
+              id,
+              name,
+              type,
+              placeholder,
+              errorMessage,
+              inputTouched,
+            } = item;
+            return (
+              <>
+                <Input
+                  key={index}
+                  value={value}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  id={id}
+                  name={name}
+                  type={type}
+                  placeholder={placeholder}
+                />
+                {inputTouched && errorMessage && (
+                  <div className={"requiredStyle"}>{errorMessage}</div>
+                )}
+              </>
+            );
+          })}
         </div>
         <div className="buttonWrapper">
-          <Button type="submit" className={"buttonSignup"}>
+          <Button type="submit" className="buttonSignup">
             Sign Up
           </Button>
           <Button type={"button"} onClick={navigation}>

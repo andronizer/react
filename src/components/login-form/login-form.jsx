@@ -8,11 +8,14 @@ import AppHeader from "../app-header/app-header";
 import Button from "../button/Button";
 import { Input } from "../input/Input";
 import apiService from "../../services/api.service";
+import { setIsAuthenticated } from "../../store/reducers/appSlice";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
   const [isLogin, setIsLogin] = useState(false);
   const history = useHistory();
   const [err, setErr] = useState(false);
+  const dispatch = useDispatch();
 
   const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
     useFormik({
@@ -34,6 +37,7 @@ const LoginForm = () => {
           .then((response) => {
             console.log(response.status);
             saveTokenInLocalStorage(response.data);
+            dispatch(setIsAuthenticated(true));
             setIsLogin(true);
           })
           .catch(function (error) {
@@ -42,6 +46,27 @@ const LoginForm = () => {
           });
       },
     });
+
+  const inputs = [
+    {
+      value: values.email,
+      id: "email",
+      name: "email",
+      type: "text",
+      placeholder: "user@email.com",
+      errorMessage: errors.email,
+      inputTouched: touched.email,
+    },
+    {
+      value: values.password,
+      id: "password",
+      name: "password",
+      type: "password",
+      placeholder: "password123",
+      errorMessage: errors.password,
+      inputTouched: touched.password,
+    },
+  ];
 
   const navigation = useCallback(() => {
     history.push("/signup");
@@ -52,44 +77,42 @@ const LoginForm = () => {
   }
 
   return (
-    <div className={"loginWrapper"}>
+    <div className="loginWrapper">
       <AppHeader>Hi! I'm Todooster!</AppHeader>
       <form onSubmit={handleSubmit}>
-        <div className={"input_container"}>
-          <div className={"inputWrappeer"}>
-            {err ? <span>Sign up, please</span> : null}
-            <Input
-              className={"input"}
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id={"email"}
-              name={"email"}
-              type={"text"}
-              placeholder={"user@email.com"}
-            />
-            {touched.email && errors.email ? (
-              <div className={"requiredStyle"}>{errors.email}</div>
-            ) : null}
-          </div>
-          <div className={"inputWrappeer"}>
-            <Input
-              className="input"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id="password"
-              name="password"
-              type="password"
-              placeholder="password123"
-            />
-            {touched.password && errors.password ? (
-              <div className={"requiredStyle"}>{errors.password}</div>
-            ) : null}
-          </div>
+        <div className="inputWrapper">
+          {err && <span>Sign up, please</span>}
+          {inputs.map((item, index) => {
+            const {
+              value,
+              id,
+              name,
+              type,
+              placeholder,
+              errorMessage,
+              inputTouched,
+            } = item;
+            return (
+              <>
+                <Input
+                  key={index}
+                  value={value}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  id={id}
+                  name={name}
+                  type={type}
+                  placeholder={placeholder}
+                />
+                {inputTouched && errorMessage && (
+                  <div className="requiredStyle">{errorMessage}</div>
+                )}
+              </>
+            );
+          })}
         </div>
         <div className="buttonWrapper">
-          <Button className={"buttonLogin"} type={"submit"}>
+          <Button className="buttonLogin" type={"submit"}>
             Log In
           </Button>
           <Button type={"button"} onClick={navigation}>

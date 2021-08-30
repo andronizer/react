@@ -14,8 +14,8 @@ Button {
   margin: 0px 10px;
 }
 Button.primary {
-  background-color: blue;
+  background: #c47344;
 }
 Button.secondary {
-  background-color: green;
+  background: #f9a38f;
 }
