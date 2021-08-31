@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "./login-form.css";
+import "./loginForm.css";
 import { saveTokenInLocalStorage } from "../app/service";
 import { Redirect, useHistory } from "react-router-dom";
-import AppHeader from "../app-header/app-header";
+import Title from "../title/Title";
 import Button from "../button/Button";
 import { Input } from "../input/Input";
-import apiService from "../../services/api.service";
+import apiService from "../../services/apiService";
 import { setIsAuthenticated } from "../../store/reducers/appSlice";
 import { useDispatch } from "react-redux";
 
@@ -78,10 +78,14 @@ const LoginForm = () => {
 
   return (
     <div className="loginWrapper">
-      <AppHeader>Hi! I'm Todooster!</AppHeader>
+      <Title>Hi! I'm Todooster!</Title>
       <form onSubmit={handleSubmit}>
         <div className="inputWrapper">
-          {err && <span>Sign up, please</span>}
+          {err && (
+            <span className="errorMessage">
+              Incorrect! Try again or sign up.
+            </span>
+          )}
           {inputs.map((item, index) => {
             const {
               value,

@@ -1,5 +1,7 @@
 .newBoard {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 500px;
   background: #fffaf2;
   border: 1px solid #dddddd;
@@ -8,24 +10,25 @@
   border-radius: 10px;
   margin: 8px;
   padding: 30px;
+  position: relative;
 }
 .boardButton {
   background: #c47344;
   margin-top: 20px;
 }
 
-.titleInput {
-  width: 414px;
+.boardTitleInput {
+  width: 410px;
 }
 .addTask {
   height: 35px;
   width: 320px;
   background: none;
 }
-.addButton {
+.addItemButton {
   width: 80px;
   height: 35px;
-  background: #c47344;
+  background: #f9a38f;
   border-radius: 10px;
   font-size: 14px;
   line-height: 20px;
@@ -115,4 +118,23 @@
 }
 .boardTitle {
   text-align: center;
+}
+.closeButton {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  margin: 0;
+  width: 25px;
+  height: 25px;
+  background: #f9a38f;
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 2px;
 }

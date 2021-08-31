@@ -2,7 +2,7 @@ import React from "react";
 import "./input.css";
 
 export const Input = ({
-  // className,
+  className,
   value,
   onChange,
   onBlur,
@@ -13,7 +13,7 @@ export const Input = ({
 }) => {
   return (
     <input
-      className="input"
+      className={`input ${className}`}
       value={value}
       onChange={onChange}
       onBlur={onBlur}

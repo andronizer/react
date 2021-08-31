@@ -1,25 +1,36 @@
 import React, { useState } from "react";
-import AppHeader from "../app-header/app-header";
-import Button from "../button";
 import Board from "../board/Board";
 import withAuth from "../../features/auth/withAuth";
+import { Header } from "./components/header/Header";
 import "./dashboard.css";
 
 const Dashboard = () => {
-  const [count, setCount] = useState([<div></div>]);
+  const [boards, setBoards] = useState([]);
+  const handleAddBoard = () => {
+    setBoards([...boards, {}]);
+  };
+
+  const handleDeleteBoard = (index) => {
+    const newList = boards;
+    newList.splice(index, 1);
+    setBoards([...newList]);
+  };
 
   return (
     <div className="mainWrapper">
-      <div className="headerWrapper">
-        <AppHeader className="headerText">Todooster</AppHeader>
-        <Button
-          className="headerButton"
-          onClick={() => setCount([count, <Board />])}
-        >
-          Add Board
-        </Button>
+      <Header handleAddBoard={handleAddBoard} />
+      <div className="boardsWrapper">
+        {boards.map((index) => {
+          return (
+            <Board
+              key={index}
+              handleDeleteBoard={() => {
+                handleDeleteBoard(index);
+              }}
+            />
+          );
+        })}
       </div>
-      <div className="boardsWrapper">{count.map((el) => el)}</div>
     </div>
   );
 };

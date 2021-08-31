@@ -31,3 +31,7 @@
 .buttonLogin {
   background: #c47344;
 }
+.errorMessage {
+  color: #c47344;
+  margin-bottom: 6px;
+}

@@ -1,4 +1,4 @@
-import "../login-form/login-form";
+import "../loginForm/loginForm";
 
 export function saveTokenInLocalStorage(tokenDetails) {
   localStorage.setItem("userDetails", tokenDetails.token);

@@ -1,7 +1,7 @@
 import React from "react";
 import Dashboard from "../dashboard/dashboard";
 import Signup from "../signup/signup";
-import LoginForm from "../login-form";
+import LoginForm from "../loginForm";
 import { Redirect, Route } from "react-router-dom";
 import "./app.css";
 

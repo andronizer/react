@@ -3,11 +3,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Redirect, useHistory } from "react-router-dom";
 import { saveTokenInLocalStorage } from "../app/service";
-import AppHeader from "../app-header/app-header";
+import Title from "../title/Title";
 import Button from "../button/Button";
 import { Input } from "../input/Input";
 import "./signup.css";
-import apiService from "../../services/api.service";
+import apiService from "../../services/apiService";
 import { setIsAuthenticated } from "../../store/reducers/appSlice";
 import { useDispatch } from "react-redux";
 
@@ -89,7 +89,7 @@ const Signup = () => {
 
   return (
     <div className="loginWrapper">
-      <AppHeader>Sign Up, Please!</AppHeader>
+      <Title>Sign Up, Please!</Title>
       <form onSubmit={handleSubmit}>
         <div className="inputWrapper">
           {inputs.map((item, index) => {
