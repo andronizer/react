@@ -7,7 +7,7 @@ import "./app.css";
 
 const App = () => {
   return (
-    <div className="signin">
+    <div>
       <Route exact path={"/login"} render={() => <LoginForm />} />
       <Route path={"/main"} render={() => <Dashboard />} />
       <Route path={"/signup"} render={() => <Signup />} />

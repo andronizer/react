@@ -1,3 +1,9 @@
+.loginFormWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .loginWrapper {
   display: flex;
   flex-direction: column;
@@ -17,11 +23,7 @@
   align-items: center;
   margin-top: 35px;
 }
-.requiredStyle {
-  color: #c47344;
-  font-size: 10px;
-  margin-left: 8px;
-}
+
 .buttonWrapper {
   width: 900px;
   display: flex;

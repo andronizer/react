@@ -2,8 +2,3 @@ body {
   background-color: #fff8ee;
   font-family: "Roboto", sans-serif;
 }
-.signin {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
