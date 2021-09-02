@@ -51,9 +51,9 @@ const Navbar = () => {
           <button onClick={showSidebar}>x</button>
         </div>
         <div>
-          <ul>
+          <ul className="listOfBoards">
             {boards.map((el) => (
-              <li>{el.title}</li>
+              <li className="boardItem">{el.title}</li>
             ))}
           </ul>
         </div>
