@@ -4,6 +4,7 @@ import withAuth from "../../features/auth/withAuth";
 import Navbar from "./components/sideBar/SideBar";
 import { useState } from "react";
 import apiService from "../../services/apiService";
+import Board from "./components/board/Board";
 
 const Dashboard = () => {
   const [inputValue, setInputValue] = useState("");
@@ -52,7 +53,7 @@ const Dashboard = () => {
       <div>
         <div className="divBoards">
           {boards.map((el) => (
-            <div className="boardStyle">{el.title}</div>
+            <Board>{el.title}</Board>
           ))}
         </div>
       </div>
