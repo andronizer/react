@@ -52,8 +52,10 @@ const Navbar = () => {
         </div>
         <div>
           <ul className="listOfBoards">
-            {boards.map((el) => (
-              <li className="boardItem">{el.title}</li>
+            {boards.map((el, index) => (
+              <li className="boardItem" key={index}>
+                {el.title}
+              </li>
             ))}
           </ul>
         </div>

@@ -52,9 +52,12 @@ const Dashboard = () => {
       </button>
       <div>
         <div className="divBoards">
-          {boards.map((el) => (
-            <Board>{el.title}</Board>
+          {boards.map((el, index) => (
+            <Board key={index}>{el.title}</Board>
           ))}
+          {/* {boards.map((el, index) => (
+            <div key={index}>{el.id}</div>
+          ))} */}
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 900px;
+  width: 100%;
   background: #fffaf2;
   border: 1px solid #dddddd;
   box-sizing: border-box;
