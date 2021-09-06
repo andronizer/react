@@ -10,6 +10,12 @@ const apiService = {
   post: (url, data) => {
     return axios({ method: "post", url: `${API_HOST}${url}`, data });
   },
+  put: (url, data) => {
+    return axios({ method: "put", url: `${API_HOST}${url}`, data });
+  },
+  delete: (url) => {
+    return axios({ method: "delete", url: `${API_HOST}${url}` });
+  },
 };
 export default apiService;
 

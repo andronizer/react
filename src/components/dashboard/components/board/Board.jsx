@@ -3,7 +3,7 @@ import { useState } from "react";
 import Column from "../column/Column";
 import "./board.css";
 
-const Board = ({ title, children }) => {
+const Board = ({ title, children, deleteBoard }) => {
   const [columns, setColumns] = useState([]);
 
   const handleAddColumn = () => {
@@ -12,6 +12,7 @@ const Board = ({ title, children }) => {
 
   return (
     <div className="boardWrapper" title={title}>
+      <button onClick={deleteBoard}>Delete</button>
       <h2 className="boardTitle">{children}</h2>
       <button onClick={handleAddColumn}>+</button>
       <div className="columnsWrapper">

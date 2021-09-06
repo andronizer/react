@@ -8,7 +8,7 @@ const Column = ({ children }) => {
 
   const onSubmitHandler = () => {
     apiService
-      .post(`/api/dashboard/1/column`, { title: inputValue })
+      .post(`/api/dashboard/7/column`, { title: inputValue })
       .then((response) => {
         console.log(response.data);
       })
@@ -29,6 +29,7 @@ const Column = ({ children }) => {
       <button type="submit" onClick={onSubmitHandler}>
         Create
       </button>
+
       {children}
     </div>
   );
