@@ -15,12 +15,12 @@
 .headerTitle {
   margin: 4px;
   padding: 0;
-  font-size: 25px;
+  font-size: 40px;
 }
 .navMenu {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%),
     #f9eee3;
-  width: 300px;
+  width: 340px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -30,10 +30,6 @@
   transition: 850ms;
   z-index: 1;
 }
-.sidebarButtons {
-  display: flex;
-}
-
 .navMenu.active {
   left: 0;
   transition: 350ms;
@@ -62,6 +58,28 @@
 }
 .boardItem {
   background: white;
-  padding: 5px;
+  padding: 10px;
+  margin: 2px;
+  font-weight: 600;
+}
+
+.sideBarButton {
+  width: 145px;
+  height: 48px;
+  background: #f9a38f;
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 1px;
+}
+.sideBarButton.close {
+  width: 30px;
+  height: 30px;
   margin: 2px;
 }

@@ -3,14 +3,14 @@ import "./column.css";
 import { useState } from "react";
 import apiService from "../../../../services/apiService";
 
-const Column = ({ children }) => {
+const Column = ({ dashboardId }) => {
   const [inputValue, setInputValue] = useState("");
 
   const onSubmitHandler = () => {
     apiService
-      .post(`/api/dashboard/7/column`, { title: inputValue })
+      .post(`/api/dashboard/${dashboardId}/column`, { title: inputValue })
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -20,17 +20,20 @@ const Column = ({ children }) => {
   return (
     <div className="columnWrapper">
       <input
+        className="columnInput"
         type="text"
         name="title"
         placeholder="enter column title"
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
       />
-      <button type="submit" onClick={onSubmitHandler}>
-        Create
+      <button
+        className="columnTitleButton"
+        type="submit"
+        onClick={onSubmitHandler}
+      >
+        +
       </button>
-
-      {children}
     </div>
   );
 };

@@ -2,3 +2,23 @@
   display: flex;
   flex-wrap: wrap;
 }
+.addBoardButton {
+  width: 60px;
+  height: 55px;
+  background: #f9a38f;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+.addBoardWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import apiService from "../../../../services/apiService";
-
 import Title from "../../../title/Title";
 import "./sideBar.css";
 
-const Navbar = () => {
+const Navbar = ({ onClick, onChange, value }) => {
   const [sidebar, setSidebar] = useState(false);
   const [boards, setBoards] = useState([]);
 
@@ -13,7 +12,7 @@ const Navbar = () => {
       .get("/api/dashboard/all")
       .then((response) => {
         console.log(response);
-        setBoards(response.data);
+        setBoards(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -24,7 +23,7 @@ const Navbar = () => {
       .get("/api/dashboard")
       .then((response) => {
         console.log(response);
-        setBoards(response.data);
+        setBoards(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -39,16 +38,38 @@ const Navbar = () => {
           Dashboard
         </button>
         <Title className="headerTitle">Todooster</Title>
+        <div className="addBoardWrapper">
+          <input
+            type="text"
+            name="title"
+            placeholder="enter dashboard title"
+            onChange={onChange}
+            value={value}
+          />
+          <button className="addBoardButton" type="submit" onClick={onClick}>
+            Add
+          </button>
+        </div>
       </div>
       <div className={sidebar ? "navMenu active" : "navMenu"}>
         <div className="sidebarButtons">
-          <button onClick={handleOnClickAllBoards} type={"submit"}>
-            all
+          <button
+            className="sideBarButton"
+            onClick={handleOnClickAllBoards}
+            type={"submit"}
+          >
+            all boards
           </button>
-          <button onClick={handleOnClickMyBoards} type={"submit"}>
-            my
+          <button
+            className="sideBarButton"
+            onClick={handleOnClickMyBoards}
+            type={"submit"}
+          >
+            my boards
           </button>
-          <button onClick={showSidebar}>x</button>
+          <button className="sideBarButton close" onClick={showSidebar}>
+            x
+          </button>
         </div>
         <div>
           <ul className="listOfBoards">

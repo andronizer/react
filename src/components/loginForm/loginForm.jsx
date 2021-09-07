@@ -23,8 +23,7 @@ const LoginForm = () => {
     apiService
       .post("/api/login", data)
       .then((response) => {
-        console.log(response.status);
-        saveTokenInLocalStorage(response.data);
+        saveTokenInLocalStorage(response);
         dispatch(setIsAuthenticated(true));
         history.push("/main");
       })

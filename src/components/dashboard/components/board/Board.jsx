@@ -3,23 +3,24 @@ import { useState } from "react";
 import Column from "../column/Column";
 import "./board.css";
 
-const Board = ({ title, children, deleteBoard }) => {
+const Board = ({ dashboard }) => {
   const [columns, setColumns] = useState([]);
-
   const handleAddColumn = () => {
     setColumns([...columns, []]);
   };
 
   return (
-    <div className="boardWrapper" title={title}>
-      <button onClick={deleteBoard}>Delete</button>
-      <h2 className="boardTitle">{children}</h2>
-      <button onClick={handleAddColumn}>+</button>
+    <div className="boardWrapper" title={dashboard.title}>
+      <h2 className="boardTitle">{dashboard.title}</h2>
+
       <div className="columnsWrapper">
-        {columns.map((item, index) => {
-          return <Column key={index}></Column>;
+        {columns.map((index) => {
+          return <Column key={index} dashboardId={dashboard.id} />;
         })}
         {columns}
+        <button className="addColumnButton" onClick={handleAddColumn}>
+          + add column
+        </button>
       </div>
     </div>
   );
