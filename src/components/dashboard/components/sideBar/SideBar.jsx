@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import apiService from "../../../../services/apiService";
 import Title from "../../../title/Title";
 import "./sideBar.css";
@@ -7,7 +7,7 @@ const Navbar = ({ onClick, onChange, value }) => {
   const [sidebar, setSidebar] = useState(false);
   const [boards, setBoards] = useState([]);
 
-  const handleOnClickAllBoards = () =>
+  const handleOnClickAllBoards = useCallback(() => {
     apiService
       .get("/api/dashboard/all")
       .then((response) => {
@@ -17,8 +17,9 @@ const Navbar = ({ onClick, onChange, value }) => {
       .catch(function (error) {
         console.log(error);
       });
+  }, []);
 
-  const handleOnClickMyBoards = () =>
+  const handleOnClickMyBoards = useCallback(() => {
     apiService
       .get("/api/dashboard")
       .then((response) => {
@@ -28,6 +29,7 @@ const Navbar = ({ onClick, onChange, value }) => {
       .catch(function (error) {
         console.log(error);
       });
+  }, []);
 
   const showSidebar = () => setSidebar(!sidebar);
 

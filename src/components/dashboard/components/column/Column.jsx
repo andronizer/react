@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./column.css";
 import { useState } from "react";
 import apiService from "../../../../services/apiService";
@@ -6,7 +6,7 @@ import apiService from "../../../../services/apiService";
 const Column = ({ dashboardId }) => {
   const [inputValue, setInputValue] = useState("");
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = useCallback(() => {
     apiService
       .post(`/api/dashboard/${dashboardId}/column`, { title: inputValue })
       .then((response) => {
@@ -15,7 +15,7 @@ const Column = ({ dashboardId }) => {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, [inputValue]);
 
   return (
     <div className="columnWrapper">
