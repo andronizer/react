@@ -14,8 +14,10 @@ const Board = ({ dashboard }) => {
       <h2 className="boardTitle">{dashboard.title}</h2>
 
       <div className="columnsWrapper">
-        {columns.map((index) => {
-          return <Column key={index} dashboardId={dashboard.id} />;
+        {columns.map((column, index) => {
+          return (
+            <Column key={index} dashboardId={dashboard.id} column={column} />
+          );
         })}
         {columns}
         <button className="addColumnButton" onClick={handleAddColumn}>

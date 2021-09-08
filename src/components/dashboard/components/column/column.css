@@ -20,7 +20,7 @@
   margin: 5px;
   padding-left: 15px;
 }
-.columnTitleButton {
+.columnButton {
   width: 50px;
   height: 45px;
   background: #f9a38f;
@@ -34,4 +34,23 @@
   outline: none;
   cursor: pointer;
   margin: 5px;
+}
+.item {
+  height: 50px;
+  width: 335px;
+  background: #ffffff;
+  box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  margin: 5px;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #322f2e;
+  font-weight: bold;
 }
