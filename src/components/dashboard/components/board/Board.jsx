@@ -1,13 +1,24 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Column from "../column/Column";
 import "./board.css";
+import apiService from "../../../../services/apiService";
 
-const Board = ({ dashboard }) => {
+const Board = ({ dashboard, dashboardId }) => {
   const [columns, setColumns] = useState([]);
   const handleAddColumn = () => {
     setColumns([...columns, []]);
   };
+
+  const fetchData = useCallback(() => {
+    apiService.get(`/api/dashboard/${dashboardId}/column`).then((res) => {
+      setColumns(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="boardWrapper" title={dashboard.title}>
@@ -16,10 +27,14 @@ const Board = ({ dashboard }) => {
       <div className="columnsWrapper">
         {columns.map((column, index) => {
           return (
-            <Column key={index} dashboardId={dashboard.id} column={column} />
+            <Column
+              key={index}
+              dashboardId={dashboard.id}
+              column={column}
+              columnId={column.id}
+            />
           );
         })}
-        {columns}
         <button className="addColumnButton" onClick={handleAddColumn}>
           + add column
         </button>

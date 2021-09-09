@@ -47,7 +47,11 @@ const Dashboard = () => {
       <div>
         <div className="divBoards">
           {dashboards.map((dashboard, index) => (
-            <Board key={index} dashboard={dashboard} />
+            <Board
+              key={index}
+              dashboard={dashboard}
+              dashboardId={dashboard.id}
+            />
           ))}
         </div>
       </div>
