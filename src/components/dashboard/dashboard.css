@@ -1,4 +1,10 @@
+.contentWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 .divBoards {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
@@ -21,4 +27,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.navMenu {
+  background: #fffaf2;
+  width: 320px;
+  height: 1000px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  margin: 10px 0;
+}
+.listOfBoards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.boardItem {
+  background: white;
+  padding: 10px;
+  margin: 2px;
+  font-weight: 600;
+}
+a {
+  text-decoration: none;
+  color: black;
 }

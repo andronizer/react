@@ -24,7 +24,6 @@
   margin: 0;
   padding: 0;
   font-size: 30px;
-  margin-bottom: 15px;
 }
 .addColumnButton {
   width: 270px;
@@ -40,4 +39,24 @@
   outline: none;
   cursor: pointer;
   margin: 5px;
+}
+.boardHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.joinButton {
+  width: 100px;
+  height: 35px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0px 5px;
 }

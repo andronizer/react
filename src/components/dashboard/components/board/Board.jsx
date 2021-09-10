@@ -22,7 +22,13 @@ const Board = ({ dashboard, dashboardId }) => {
 
   return (
     <div className="boardWrapper" title={dashboard.title}>
-      <h2 className="boardTitle">{dashboard.title}</h2>
+      <div className="boardHeader">
+        <h2 className="boardTitle">{dashboard.title}</h2>
+        <div>
+          <button className="joinButton">join</button>
+          <button className="joinButton">unjoin</button>
+        </div>
+      </div>
 
       <div className="columnsWrapper">
         {columns.map((column, index) => {

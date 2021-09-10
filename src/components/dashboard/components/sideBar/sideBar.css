@@ -17,54 +17,8 @@
   padding: 0;
   font-size: 40px;
 }
-.navMenu {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%),
-    #f9eee3;
-  width: 340px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: -100%;
-  transition: 850ms;
-  z-index: 1;
-}
-.navMenu.active {
-  left: 0;
-  transition: 350ms;
-}
-
-.navButton {
-  width: 50%;
-  height: 48px;
-  background: #f9a38f;
-  border-radius: 10px;
-  font-size: 16px;
-  line-height: 20px;
-  text-align: center;
-  text-transform: uppercase;
-  color: #ffffff;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  margin: 0px;
-}
-
-.listOfBoards {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.boardItem {
-  background: white;
-  padding: 10px;
-  margin: 2px;
-  font-weight: 600;
-}
-
 .sideBarButton {
-  width: 145px;
+  width: 135px;
   height: 48px;
   background: #f9a38f;
   border-radius: 5px;
@@ -76,7 +30,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  margin: 1px;
+  margin: 3px;
 }
 .sideBarButton.close {
   width: 30px;
