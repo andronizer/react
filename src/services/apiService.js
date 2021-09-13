@@ -19,8 +19,8 @@ const apiService = {
       (res) => res.data
     );
   },
-  delete: (url) => {
-    return axios({ method: "delete", url: `${API_HOST}${url}` }).then(
+  delete: (url, data) => {
+    return axios({ method: "delete", url: `${API_HOST}${url}`, data }).then(
       (res) => res.data
     );
   },

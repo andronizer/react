@@ -3,7 +3,7 @@ import "./column.css";
 import { useState } from "react";
 import apiService from "../../../../services/apiService";
 
-const Column = ({ dashboardId, column, columnId }) => {
+const Column = ({ dashboardId, DashboardOwnerId, columnId }) => {
   const [inputValue, setInputValue] = useState("");
   const [taskInput, setTaskInput] = useState("");
   const [tasks, setTasks] = useState([]);
@@ -37,6 +37,20 @@ const Column = ({ dashboardId, column, columnId }) => {
   }, []);
 
   const onSubmitHandler = useCallback(() => {
+    apiService
+      .post("/api/verifyJoinedUser", {
+        DashboardId: dashboardId,
+        DashboardOwnerId: DashboardOwnerId,
+      })
+      .then((res) => {
+        if (res) {
+        } else {
+          console.log(
+            "You need to be an owner or joined to the board to edit it!"
+          );
+          return;
+        }
+      });
     apiService
       .post(`/api/dashboard/${dashboardId}/column`, { title: inputValue })
       .then((response) => {
