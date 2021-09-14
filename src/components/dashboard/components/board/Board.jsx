@@ -4,8 +4,24 @@ import Column from "../column/Column";
 import "./board.css";
 import apiService from "../../../../services/apiService";
 
-const Board = ({ dashboard }) => {
+const Board = ({ dashboard, circleHandle, id }) => {
   const [columns, setColumns] = useState([]);
+  const [userId, setUserId] = useState("");
+
+  const getCurrentUserId = useCallback(() => {
+    apiService
+      .get("/api/joinedUser")
+      .then((response) => {
+        setUserId(response.joinedUser.UserId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    getCurrentUserId();
+  }, []);
 
   const handleAddColumn = () => {
     apiService
@@ -30,6 +46,7 @@ const Board = ({ dashboard }) => {
       .post(`/api/joinedUsers`, { DashboardId: dashboard.id })
       .then((res) => {
         console.log(res);
+        circleHandle(id);
       });
   }, []);
 
@@ -38,6 +55,7 @@ const Board = ({ dashboard }) => {
       .delete("/api/unjoinUser", { DashboardId: dashboard.id })
       .then((res) => {
         console.log(res);
+        circleHandle("");
       });
   }, []);
 
@@ -55,14 +73,16 @@ const Board = ({ dashboard }) => {
     <div className="boardWrapper" title={dashboard.title}>
       <div className="boardHeader">
         <h2 className="boardTitle">{dashboard.title}</h2>
-        <div>
-          <button className="joinButton" onClick={joinToDashboard}>
-            join
-          </button>
-          <button className="joinButton" onClick={unjoinFromDashboard}>
-            unjoin
-          </button>
-        </div>
+        {!(userId == dashboard.ownerId) ? (
+          <div>
+            <button className="joinButton" onClick={joinToDashboard}>
+              join
+            </button>
+            <button className="joinButton" onClick={unjoinFromDashboard}>
+              unjoin
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <div className="columnsWrapper">

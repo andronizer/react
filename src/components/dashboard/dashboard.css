@@ -48,8 +48,17 @@
   padding: 10px;
   margin: 2px;
   font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 a {
   text-decoration: none;
   color: black;
+}
+.joinCircle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #f9a38f;
 }

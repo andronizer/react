@@ -11,13 +11,11 @@ const Dashboard = () => {
   const [inputValue, setInputValue] = useState("");
   const [dashboards, setDashboards] = useState([]);
   const [boards, setBoards] = useState([]);
+  const [currentBoardId, setCurrentBoardId] = useState("");
   const { path, url } = useRouteMatch();
 
   const fetchData = useCallback(() => {
     apiService.get("/api/dashboard/all").then((res) => {
-      apiService.get("/api/user/currentUserId").then((res) => {
-        console.log(res);
-      });
       setDashboards(res);
     });
   }, []);
@@ -43,15 +41,17 @@ const Dashboard = () => {
   }, []);
 
   const handleOnClickMyBoards = useCallback(() => {
-    apiService
-      .get("/api/dashboard")
-      .then((response) => {
-        console.log(response);
-        setBoards(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    apiService.get("/api/myJoinedBoards").then((boardId) => {
+      apiService
+        .post("/api/myDashboards", boardId)
+        .then((response) => {
+          console.log(response);
+          setBoards(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   }, []);
 
   const onSubmitHandler = useCallback(() => {
@@ -70,6 +70,10 @@ const Dashboard = () => {
   //     fetchData();
   //   });
 
+  const circleHandle = (currentBoardItemId) => {
+    setCurrentBoardId(currentBoardItemId);
+  };
+
   return (
     <div className="mainWrapper">
       <Navbar
@@ -86,6 +90,9 @@ const Dashboard = () => {
             {boards.map((el) => (
               <li className="boardItem" key={el.id}>
                 <Link to={`${url}/${el.id}`}>{el.title}</Link>
+                {el.id === currentBoardId ? (
+                  <div className="joinCircle"></div>
+                ) : null}
               </li>
             ))}
           </ul>
@@ -98,7 +105,12 @@ const Dashboard = () => {
             />
             <Route path="/main">
               {dashboards.map((dashboard, index) => (
-                <Board key={index} dashboard={dashboard} />
+                <Board
+                  key={index}
+                  dashboard={dashboard}
+                  circleHandle={circleHandle}
+                  id={dashboard.id}
+                />
               ))}
             </Route>
           </Switch>
