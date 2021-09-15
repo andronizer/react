@@ -8,14 +8,14 @@
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
 }
-.headerButton {
-  background: #f9a38f;
-  border-radius: 10px;
-}
 .headerTitle {
   margin: 4px;
   padding: 0;
   font-size: 40px;
+}
+.headerTitle:hover {
+  color: #fd5656;
+  font-size: 45px;
 }
 .sideBarButton {
   width: 135px;
@@ -32,8 +32,6 @@
   cursor: pointer;
   margin: 3px;
 }
-.sideBarButton.close {
-  width: 30px;
-  height: 30px;
-  margin: 2px;
+.sideBarButton:hover {
+  background: #f9a28fb6;
 }

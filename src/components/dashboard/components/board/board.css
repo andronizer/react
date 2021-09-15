@@ -40,6 +40,9 @@
   cursor: pointer;
   margin: 5px;
 }
+.addColumnButton:hover {
+  background: #f9a28fb6;
+}
 .boardHeader {
   width: 100%;
   display: flex;
@@ -59,4 +62,7 @@
   outline: none;
   cursor: pointer;
   margin: 0px 5px;
+}
+.joinButton:hover {
+  background: #f9a28fb6;
 }

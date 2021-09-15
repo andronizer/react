@@ -23,6 +23,9 @@
   cursor: pointer;
   margin: 0 5px;
 }
+.addBoardButton:hover {
+  background: #f9a28fb6;
+}
 .addBoardWrapper {
   display: flex;
   justify-content: center;
@@ -52,13 +55,52 @@
   justify-content: space-between;
   align-items: center;
 }
+.boardItem:hover {
+  background: #f9a28fb6;
+  color: white;
+}
 a {
   text-decoration: none;
   color: black;
+}
+a:hover {
+  color: white;
 }
 .joinCircle {
   width: 15px;
   height: 15px;
   border-radius: 50%;
   background-color: #f9a38f;
+  -webkit-animation: pulsing 2s infinite;
+  animation: pulsing 2s infinite;
+}
+
+@-webkit-keyframes pulsing {
+  0% {
+    -webkit-transform: scale(0.5, 0.5);
+    transform: scale(0.5, 0.5);
+  }
+  50% {
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+  }
+  100% {
+    -webkit-transform: scale(0.5, 0.5);
+    transform: scale(0.5, 0.5);
+  }
+}
+
+@keyframes pulsing {
+  0% {
+    -webkit-transform: scale(0.5, 0.5);
+    transform: scale(0.5, 0.5);
+  }
+  50% {
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+  }
+  100% {
+    -webkit-transform: scale(0.5, 0.5);
+    transform: scale(0.5, 0.5);
+  }
 }

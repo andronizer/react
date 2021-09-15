@@ -5,6 +5,7 @@ import withAuth from "../../features/auth/withAuth";
 import Navbar from "./components/sideBar/SideBar.jsx";
 import apiService from "../../services/apiService";
 import Board from "./components/board/Board.jsx";
+import Footer from "./components/footer/Footer.jsx";
 import BoardsList from "./BoardsList";
 
 const Dashboard = () => {
@@ -28,7 +29,6 @@ const Dashboard = () => {
     apiService
       .get("/api/dashboard/all")
       .then((response) => {
-        console.log(response);
         setBoards(response);
       })
       .catch((error) => {
@@ -45,7 +45,6 @@ const Dashboard = () => {
       apiService
         .post("/api/myDashboards", boardId)
         .then((response) => {
-          console.log(response);
           setBoards(response);
         })
         .catch((error) => {
@@ -116,6 +115,7 @@ const Dashboard = () => {
           </Switch>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

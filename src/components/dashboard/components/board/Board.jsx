@@ -30,7 +30,6 @@ const Board = ({ dashboard, circleHandle, id }) => {
         DashboardOwnerId: dashboard.ownerId,
       })
       .then((res) => {
-        console.log(res);
         if (res) {
           setColumns([...columns, []]);
         } else {
