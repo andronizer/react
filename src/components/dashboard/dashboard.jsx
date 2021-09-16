@@ -7,17 +7,22 @@ import apiService from "../../services/apiService";
 import Board from "./components/board/Board.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import BoardsList from "./BoardsList";
+import { useDispatch, useSelector } from "react-redux";
+import { setDashboards } from "../../store/reducers/appSlice";
+import { giveDashboards } from "../../store/reducers/appSlice";
 
 const Dashboard = () => {
   const [inputValue, setInputValue] = useState("");
-  const [dashboards, setDashboards] = useState([]);
-  const [boards, setBoards] = useState([]);
   const [currentBoardId, setCurrentBoardId] = useState("");
+  const [myBoards, setMyBoards] = useState(false);
   const { path, url } = useRouteMatch();
+
+  const dispatch = useDispatch();
+  const dashboards = useSelector(giveDashboards);
 
   const fetchData = useCallback(() => {
     apiService.get("/api/dashboard/all").then((res) => {
-      setDashboards(res);
+      dispatch(setDashboards(res));
     });
   }, []);
 
@@ -25,33 +30,13 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const handleOnClickAllBoards = useCallback(() => {
-    apiService
-      .get("/api/dashboard/all")
-      .then((response) => {
-        setBoards(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const handleOnClickAllBoards = () => {
+    setMyBoards(false);
+  };
 
-  useEffect(() => {
-    handleOnClickAllBoards();
-  }, []);
-
-  const handleOnClickMyBoards = useCallback(() => {
-    apiService.get("/api/myJoinedBoards").then((boardId) => {
-      apiService
-        .post("/api/myDashboards", boardId)
-        .then((response) => {
-          setBoards(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  }, []);
+  const handleOnClickMyBoards = () => {
+    setMyBoards(true);
+  };
 
   const onSubmitHandler = useCallback(() => {
     apiService
@@ -86,14 +71,27 @@ const Dashboard = () => {
       <div className="contentWrapper">
         <div className="navMenu">
           <ul className="listOfBoards">
-            {boards.map((el) => (
-              <li className="boardItem" key={el.id}>
-                <Link to={`${url}/${el.id}`}>{el.title}</Link>
-                {el.id === currentBoardId ? (
-                  <div className="joinCircle"></div>
-                ) : null}
-              </li>
-            ))}
+            {dashboards.map((el) => {
+              if (myBoards && el.joined === true) {
+                return (
+                  <li className="boardItem" key={el.id}>
+                    <Link to={`${url}/${el.id}`}>{el.title}</Link>
+                    {el.id === currentBoardId ? (
+                      <div className="joinCircle"></div>
+                    ) : null}
+                  </li>
+                );
+              } else {
+                return (
+                  <li className="boardItem" key={el.id}>
+                    <Link to={`${url}/${el.id}`}>{el.title}</Link>
+                    {el.id === currentBoardId ? (
+                      <div className="joinCircle"></div>
+                    ) : null}
+                  </li>
+                );
+              }
+            })}
           </ul>
         </div>
         <div className="divBoards">
@@ -109,6 +107,7 @@ const Dashboard = () => {
                   dashboard={dashboard}
                   circleHandle={circleHandle}
                   id={dashboard.id}
+                  showJoinedButtons={dashboard.joined}
                 />
               ))}
             </Route>

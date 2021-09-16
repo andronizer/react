@@ -17,8 +17,8 @@ const Column = ({ dashboardId, DashboardOwnerId, columnId }) => {
       .then((response) => {
         console.log(response);
         const newList = tasks;
-        newList.unshift(response.title);
-        setTasks([...newList]);
+        newList.unshift(response);
+        // setTasks([...newList]);
         setTaskInput("");
       })
       .catch((error) => {

@@ -4,7 +4,7 @@ import Column from "../column/Column";
 import "./board.css";
 import apiService from "../../../../services/apiService";
 
-const Board = ({ dashboard, circleHandle, id }) => {
+const Board = ({ dashboard, circleHandle, id, showJoinedButtons }) => {
   const [columns, setColumns] = useState([]);
   const [userId, setUserId] = useState("");
 
@@ -72,16 +72,15 @@ const Board = ({ dashboard, circleHandle, id }) => {
     <div className="boardWrapper" title={dashboard.title}>
       <div className="boardHeader">
         <h2 className="boardTitle">{dashboard.title}</h2>
-        {!(userId == dashboard.ownerId) ? (
-          <div>
-            <button className="joinButton" onClick={joinToDashboard}>
-              join
-            </button>
-            <button className="joinButton" onClick={unjoinFromDashboard}>
-              unjoin
-            </button>
-          </div>
-        ) : null}
+
+        <div>
+          <button className="joinButton" onClick={joinToDashboard}>
+            join
+          </button>
+          <button className="joinButton" onClick={unjoinFromDashboard}>
+            unjoin
+          </button>
+        </div>
       </div>
 
       <div className="columnsWrapper">
