@@ -8,6 +8,7 @@ const Navbar = ({
   value,
   handleOnClickAllBoards,
   handleOnClickMyBoards,
+  handleClickLogOut,
 }) => {
   return (
     <div>
@@ -39,6 +40,9 @@ const Navbar = ({
           />
           <button className="addBoardButton" type="submit" onClick={onClick}>
             Add
+          </button>
+          <button className="logOutButton" onClick={handleClickLogOut}>
+            Log Out
           </button>
         </div>
       </div>

@@ -12,17 +12,34 @@ export const appSlice = createSlice({
     setIsAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
     },
-    logOut: (state) => {
+    setLogOut: (state) => {
       localStorage.removeItem("access_token");
       state.isAuthenticated = false;
     },
     setDashboards: (state, action) => {
       state.dashboards = action.payload;
     },
+    appendDashboards: (state, action) => {
+      state.dashboards = [...state.dashboards, action.payload];
+    },
+    toggleJoinDashboard: (state, action) => {
+      const index = state.dashboards.findIndex(
+        (dashboard) => dashboard.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.dashboards[index].joined = action.payload.state;
+      }
+    },
   },
 });
 
-export const { setIsAuthenticated, logOut, setDashboards } = appSlice.actions;
+export const {
+  setIsAuthenticated,
+  setLogOut,
+  setDashboards,
+  appendDashboards,
+  toggleJoinDashboard,
+} = appSlice.actions;
 
 export const selectIsAuthenticated = (state) => {
   return state.app.isAuthenticated;

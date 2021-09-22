@@ -1,24 +1,32 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
+import { useParams } from "react-router";
 import "./dashboard.css";
 import withAuth from "../../features/auth/withAuth";
 import Navbar from "./components/sideBar/SideBar.jsx";
 import apiService from "../../services/apiService";
 import Board from "./components/board/Board.jsx";
 import Footer from "./components/footer/Footer.jsx";
-import BoardsList from "./BoardsList";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setDashboards } from "../../store/reducers/appSlice";
-import { giveDashboards } from "../../store/reducers/appSlice";
+import {
+  setDashboards,
+  giveDashboards,
+  appendDashboards,
+  toggleJoinDashboard,
+  setLogOut,
+} from "../../store/reducers/appSlice";
 
 const Dashboard = () => {
   const [inputValue, setInputValue] = useState("");
-  const [currentBoardId, setCurrentBoardId] = useState("");
   const [myBoards, setMyBoards] = useState(false);
   const { path, url } = useRouteMatch();
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const dashboards = useSelector(giveDashboards);
+
+  const { dashboardId } = useParams();
 
   const fetchData = useCallback(() => {
     apiService.get("/api/dashboard/all").then((res) => {
@@ -41,22 +49,30 @@ const Dashboard = () => {
   const onSubmitHandler = useCallback(() => {
     apiService
       .post("/api/dashboard", { title: inputValue })
-      .then(() => {
-        fetchData();
+      .then((res) => {
+        dispatch(appendDashboards(res));
       })
       .catch((error) => {
         console.log(error);
       });
   }, [inputValue]);
 
-  // const deleteBoard = (index) =>
-  //   apiService.delete(`/api/dashboard/${index}`).then(() => {
-  //     fetchData();
-  //   });
-
-  const circleHandle = (currentBoardItemId) => {
-    setCurrentBoardId(currentBoardItemId);
+  const circleHandle = (currentBoardItemId, state = true) => {
+    dispatch(toggleJoinDashboard({ id: currentBoardItemId, state }));
   };
+
+  const handleClickLogOut = () => {
+    dispatch(setLogOut());
+    history.push("/login");
+  };
+
+  console.log(dashboards);
+
+  const filteredDashboards = dashboards.filter(
+    (el) => dashboardId === "all" || el.id === +dashboardId
+  );
+
+  console.log(filteredDashboards);
 
   return (
     <div className="mainWrapper">
@@ -66,52 +82,34 @@ const Dashboard = () => {
         value={inputValue}
         handleOnClickAllBoards={handleOnClickAllBoards}
         handleOnClickMyBoards={handleOnClickMyBoards}
+        handleClickLogOut={handleClickLogOut}
       />
 
       <div className="contentWrapper">
         <div className="navMenu">
           <ul className="listOfBoards">
-            {dashboards.map((el) => {
-              if (myBoards && el.joined === true) {
+            {dashboards
+              .filter((dashboard) => !myBoards || dashboard.joined)
+              .map((el) => {
                 return (
                   <li className="boardItem" key={el.id}>
-                    <Link to={`${url}/${el.id}`}>{el.title}</Link>
-                    {el.id === currentBoardId ? (
+                    <Link to={`/main/${el.id}`}>{el.title}</Link>
+                    {!myBoards && el.joined ? (
                       <div className="joinCircle"></div>
                     ) : null}
                   </li>
                 );
-              } else {
-                return (
-                  <li className="boardItem" key={el.id}>
-                    <Link to={`${url}/${el.id}`}>{el.title}</Link>
-                    {el.id === currentBoardId ? (
-                      <div className="joinCircle"></div>
-                    ) : null}
-                  </li>
-                );
-              }
-            })}
+              })}
           </ul>
         </div>
         <div className="divBoards">
-          <Switch>
-            <Route
-              children={<BoardsList dashboards={dashboards} />}
-              path={`${path}/:dashboardId`}
+          {filteredDashboards.map((dashboard) => (
+            <Board
+              key={dashboard.id}
+              dashboard={dashboard}
+              circleHandle={circleHandle}
             />
-            <Route path="/main">
-              {dashboards.map((dashboard, index) => (
-                <Board
-                  key={index}
-                  dashboard={dashboard}
-                  circleHandle={circleHandle}
-                  id={dashboard.id}
-                  showJoinedButtons={dashboard.joined}
-                />
-              ))}
-            </Route>
-          </Switch>
+          ))}
         </div>
       </div>
       <Footer />

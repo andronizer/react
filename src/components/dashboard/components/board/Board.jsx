@@ -4,79 +4,54 @@ import Column from "../column/Column";
 import "./board.css";
 import apiService from "../../../../services/apiService";
 
-const Board = ({ dashboard, circleHandle, id, showJoinedButtons }) => {
-  const [columns, setColumns] = useState([]);
-  const [userId, setUserId] = useState("");
-
-  const getCurrentUserId = useCallback(() => {
-    apiService
-      .get("/api/joinedUser")
-      .then((response) => {
-        setUserId(response.joinedUser.UserId);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    getCurrentUserId();
-  }, []);
+const Board = ({ dashboard, circleHandle }) => {
+  const [columns, setColumns] = useState(dashboard.columns);
+  console.log(dashboard);
 
   const handleAddColumn = () => {
     apiService
-      .post("/api/verifyJoinedUser", {
-        DashboardId: dashboard.id,
-        DashboardOwnerId: dashboard.ownerId,
-      })
+      .post(`/api/dashboard/${dashboard.id}/column`, { title: "new column" })
       .then((res) => {
-        if (res) {
-          setColumns([...columns, []]);
-        } else {
-          console.log(
-            "You need to be an owner or joined to the board to edit it!"
-          );
-        }
-      });
+        setColumns((values) => [...values, res]);
+      })
+      .catch();
   };
 
   const joinToDashboard = useCallback(() => {
-    apiService
-      .post(`/api/joinedUsers`, { DashboardId: dashboard.id })
-      .then((res) => {
-        console.log(res);
-        circleHandle(id);
-      });
-  }, []);
-
-  const unjoinFromDashboard = useCallback(() => {
-    apiService
-      .delete("/api/unjoinUser", { DashboardId: dashboard.id })
-      .then((res) => {
-        console.log(res);
-        circleHandle("");
-      });
-  }, []);
-
-  const fetchData = useCallback(() => {
-    apiService.get(`/api/dashboard/${dashboard.id}/column`).then((res) => {
-      setColumns(res);
+    apiService.post(`/api/dashboard/${dashboard.id}/user`).then((res) => {
+      console.log(res);
+      circleHandle(dashboard.id);
     });
   }, []);
 
-  useEffect(() => {
-    fetchData();
+  const unjoinFromDashboard = useCallback(() => {
+    console.log(dashboard.id);
+    apiService
+      .delete(`/api/dashboard/${dashboard.id}/user`, {
+        DashboardId: dashboard.id,
+      })
+      .then((res) => {
+        console.log(res);
+        circleHandle(dashboard.id, false);
+      });
   }, []);
+
+  // useEffect(() => {
+  //   apiService.get(`/api/dashboard/${dashboard.id}/column`).then((res) => {
+  //     setColumns(res);
+  //   });
+  // }, []);
 
   return (
     <div className="boardWrapper" title={dashboard.title}>
       <div className="boardHeader">
         <h2 className="boardTitle">{dashboard.title}</h2>
-
         <div>
-          <button className="joinButton" onClick={joinToDashboard}>
-            join
-          </button>
+          {dashboard.joined ? null : (
+            <button className="joinButton" onClick={joinToDashboard}>
+              join
+            </button>
+          )}
           <button className="joinButton" onClick={unjoinFromDashboard}>
             unjoin
           </button>
@@ -84,20 +59,16 @@ const Board = ({ dashboard, circleHandle, id, showJoinedButtons }) => {
       </div>
 
       <div className="columnsWrapper">
-        {columns.map((column, index) => {
+        {columns.map((column) => {
           return (
-            <Column
-              key={index}
-              dashboardId={dashboard.id}
-              column={column}
-              columnId={column.id}
-              DashboardOwnerId={dashboard.ownerId}
-            />
+            <Column key={column.id} dashboard={dashboard} column={column} />
           );
         })}
-        <button className="addColumnButton" onClick={handleAddColumn}>
-          + add column
-        </button>
+        {dashboard.joined === false ? null : (
+          <button className="addColumnButton" onClick={handleAddColumn}>
+            + add column
+          </button>
+        )}
       </div>
     </div>
   );

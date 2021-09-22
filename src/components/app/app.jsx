@@ -9,9 +9,9 @@ const App = () => {
   return (
     <>
       <Route exact path={"/login"} render={() => <LoginForm />} />
-      <Route path={"/main"} render={() => <Dashboard />} />
+      <Route path={"/main/:dashboardId"} render={() => <Dashboard />} />
       <Route path={"/signup"} render={() => <Signup />} />
-      <Redirect to={"/main"} from={"/"} />
+      <Redirect to={"/main/all"} from={"/"} />
     </>
   );
 };

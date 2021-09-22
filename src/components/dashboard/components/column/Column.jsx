@@ -3,22 +3,22 @@ import "./column.css";
 import { useState } from "react";
 import apiService from "../../../../services/apiService";
 
-const Column = ({ dashboardId, DashboardOwnerId, columnId }) => {
+const Column = ({ dashboard, column }) => {
   const [inputValue, setInputValue] = useState("");
   const [taskInput, setTaskInput] = useState("");
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(column.tasks);
   const [titleFormSubmit, setTitleFormSubmit] = useState(false);
 
   const AddTodo = useCallback(() => {
     apiService
-      .post(`/api/${columnId}/task`, {
+      .post(`/api/${column.id}/task`, {
         title: taskInput,
       })
       .then((response) => {
         console.log(response);
         const newList = tasks;
         newList.unshift(response);
-        // setTasks([...newList]);
+        setTasks([...newList]);
         setTaskInput("");
       })
       .catch((error) => {
@@ -26,33 +26,9 @@ const Column = ({ dashboardId, DashboardOwnerId, columnId }) => {
       });
   }, [taskInput]);
 
-  const fetchData = useCallback(() => {
-    apiService.get(`/api/${columnId}/task`).then((res) => {
-      setTasks(res);
-    });
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const onSubmitHandler = useCallback(() => {
     apiService
-      .post("/api/verifyJoinedUser", {
-        DashboardId: dashboardId,
-        DashboardOwnerId: DashboardOwnerId,
-      })
-      .then((res) => {
-        if (res) {
-        } else {
-          console.log(
-            "You need to be an owner or joined to the board to edit it!"
-          );
-          return;
-        }
-      });
-    apiService
-      .post(`/api/dashboard/${dashboardId}/column`, { title: inputValue })
+      .post(`/api/dashboard/${dashboard.id}/column`, { title: inputValue })
       .then((response) => {
         console.log(response);
         setTitleFormSubmit(true);
@@ -77,13 +53,15 @@ const Column = ({ dashboardId, DashboardOwnerId, columnId }) => {
               onChange={(e) => setInputValue(e.target.value)}
               value={inputValue}
             />
-            <button
-              className="columnButton"
-              type="submit"
-              onClick={onSubmitHandler}
-            >
-              +
-            </button>
+            {dashboard.joined === false ? null : (
+              <button
+                className="columnButton"
+                type="submit"
+                onClick={onSubmitHandler}
+              >
+                +
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -96,13 +74,15 @@ const Column = ({ dashboardId, DashboardOwnerId, columnId }) => {
           }}
           value={taskInput}
         />
-        <button onClick={AddTodo} className="columnButton" type={"submit"}>
-          +
-        </button>
+        {dashboard.joined === false ? null : (
+          <button onClick={AddTodo} className="columnButton" type={"submit"}>
+            +
+          </button>
+        )}
       </div>
-      {tasks.map((task, index) => {
+      {tasks.map((task) => {
         return (
-          <div className="item" key={index}>
+          <div className="item" key={task.id}>
             {task.title}
           </div>
         );

@@ -26,7 +26,6 @@ const Signup = () => {
     apiService
       .post("/api/signup", data)
       .then((response) => {
-        console.log(response.status);
         saveTokenInLocalStorage(response);
         dispatch(setIsAuthenticated(true));
         history.push("/main");

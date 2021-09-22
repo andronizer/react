@@ -35,3 +35,18 @@
 .sideBarButton:hover {
   background: #f9a28fb6;
 }
+.logOutButton {
+  width: 95px;
+  height: 54px;
+  background: #f9a38f;
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 3px;
+}
