@@ -1,17 +1,26 @@
 import React from "react";
 import { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import Column from "../column/Column";
-import "./board.css";
 import apiService from "../../../../services/apiService";
+import "./board.css";
+import { updateDashboard } from "../../../../store/reducers/appSlice";
 
 const Board = ({ dashboard, circleHandle }) => {
   const [columns, setColumns] = useState(dashboard.columns);
+  const dispatch = useDispatch();
 
   const handleAddColumn = () => {
     apiService
       .post(`/api/dashboard/${dashboard.id}/column`, { title: "new column" })
       .then((res) => {
         setColumns([...dashboard.columns, res]);
+        dispatch(
+          updateDashboard({
+            ...dashboard,
+            columns: [...dashboard.columns, res],
+          })
+        );
       })
       .catch();
   };
@@ -53,8 +62,8 @@ const Board = ({ dashboard, circleHandle }) => {
       </div>
 
       <div className="columnsWrapper">
-        {columns &&
-          columns.map((column) => {
+        {dashboard.columns &&
+          dashboard.columns.map((column) => {
             return (
               <Column key={column.id} dashboard={dashboard} column={column} />
             );

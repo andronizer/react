@@ -2,7 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuthenticated: localStorage.getItem("access_token"),
-  dashboards: [],
+  dashboards: [
+    {
+      id: 0,
+      title: "",
+      joined: true,
+      columns: [{ title: "", tasks: [] }],
+    },
+  ],
 };
 
 export const appSlice = createSlice({
@@ -30,6 +37,14 @@ export const appSlice = createSlice({
         state.dashboards[index].joined = action.payload.state;
       }
     },
+    updateDashboard: (state, action) => {
+      state.dashboards = state.dashboards.map((e) => {
+        if (e.id === action?.payload?.id) {
+          return { ...e, ...action.payload };
+        }
+        return e;
+      });
+    },
   },
 });
 
@@ -39,6 +54,7 @@ export const {
   setDashboards,
   appendDashboards,
   toggleJoinDashboard,
+  updateDashboard,
 } = appSlice.actions;
 
 export const selectIsAuthenticated = (state) => {

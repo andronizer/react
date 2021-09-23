@@ -45,6 +45,7 @@ const Dashboard = () => {
     apiService
       .post("/api/dashboard", { title: inputValue })
       .then((res) => {
+        console.log(res);
         dispatch(appendDashboards(res));
         fetchData();
       })

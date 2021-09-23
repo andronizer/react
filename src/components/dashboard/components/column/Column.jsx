@@ -1,12 +1,15 @@
 import React, { useState, useCallback } from "react";
 import "./column.css";
 import apiService from "../../../../services/apiService";
+import { updateDashboard } from "../../../../store/reducers/appSlice";
+import { useDispatch } from "react-redux";
 
 const Column = ({ dashboard, column }) => {
   const [inputValue, setInputValue] = useState("");
   const [taskInput, setTaskInput] = useState("");
-  const [tasks, setTasks] = useState(column.tasks);
+  const [tasks, setTasks] = useState(column.tasks || []);
   const [titleFormSubmit, setTitleFormSubmit] = useState(false);
+  const dispatch = useDispatch();
 
   const AddTodo = useCallback(() => {
     apiService
@@ -29,6 +32,17 @@ const Column = ({ dashboard, column }) => {
         title: inputValue,
       })
       .then((response) => {
+        dispatch(
+          updateDashboard({
+            ...dashboard,
+            columns: dashboard.columns.map((e) => {
+              if (e.id === response.id) {
+                return response;
+              }
+              return e;
+            }),
+          })
+        );
         console.log(response);
         setTitleFormSubmit(true);
       })
