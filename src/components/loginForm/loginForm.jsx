@@ -25,7 +25,7 @@ const LoginForm = () => {
       .then((response) => {
         saveTokenInLocalStorage(response);
         dispatch(setIsAuthenticated(true));
-        history.push("/main");
+        history.push("/main/all");
       })
       .catch(function (error) {
         console.log(error);

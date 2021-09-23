@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import "./dashboard.css";
 import withAuth from "../../features/auth/withAuth";
@@ -20,7 +20,6 @@ import {
 const Dashboard = () => {
   const [inputValue, setInputValue] = useState("");
   const [myBoards, setMyBoards] = useState(false);
-  const { path, url } = useRouteMatch();
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -32,10 +31,6 @@ const Dashboard = () => {
     apiService.get("/api/dashboard/all").then((res) => {
       dispatch(setDashboards(res));
     });
-  }, []);
-
-  useEffect(() => {
-    fetchData();
   }, []);
 
   const handleOnClickAllBoards = () => {
@@ -51,6 +46,7 @@ const Dashboard = () => {
       .post("/api/dashboard", { title: inputValue })
       .then((res) => {
         dispatch(appendDashboards(res));
+        fetchData();
       })
       .catch((error) => {
         console.log(error);
@@ -66,13 +62,13 @@ const Dashboard = () => {
     history.push("/login");
   };
 
-  console.log(dashboards);
-
   const filteredDashboards = dashboards.filter(
     (el) => dashboardId === "all" || el.id === +dashboardId
   );
 
-  console.log(filteredDashboards);
+  useEffect(() => {
+    fetchData();
+  }, [inputValue]);
 
   return (
     <div className="mainWrapper">

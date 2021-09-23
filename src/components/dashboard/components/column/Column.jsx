@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import "./column.css";
-import { useState } from "react";
 import apiService from "../../../../services/apiService";
 
 const Column = ({ dashboard, column }) => {
@@ -16,9 +15,7 @@ const Column = ({ dashboard, column }) => {
       })
       .then((response) => {
         console.log(response);
-        const newList = tasks;
-        newList.unshift(response);
-        setTasks([...newList]);
+        setTasks([...tasks, response]);
         setTaskInput("");
       })
       .catch((error) => {
@@ -28,7 +25,9 @@ const Column = ({ dashboard, column }) => {
 
   const onSubmitHandler = useCallback(() => {
     apiService
-      .post(`/api/dashboard/${dashboard.id}/column`, { title: inputValue })
+      .put(`/api/dashboard/${dashboard.id}/column/${column.id}`, {
+        title: inputValue,
+      })
       .then((response) => {
         console.log(response);
         setTitleFormSubmit(true);
@@ -41,8 +40,8 @@ const Column = ({ dashboard, column }) => {
   return (
     <div className="columnWrapper">
       <div className="setColumnTitle">
-        {titleFormSubmit ? (
-          <h2 className="columnTitle">{inputValue}</h2>
+        {titleFormSubmit || column.title !== "new column" ? (
+          <h2 className="columnTitle">{column.title}</h2>
         ) : (
           <div>
             <input
@@ -57,7 +56,9 @@ const Column = ({ dashboard, column }) => {
               <button
                 className="columnButton"
                 type="submit"
-                onClick={onSubmitHandler}
+                onClick={() => {
+                  onSubmitHandler();
+                }}
               >
                 +
               </button>
@@ -80,13 +81,14 @@ const Column = ({ dashboard, column }) => {
           </button>
         )}
       </div>
-      {tasks.map((task) => {
-        return (
-          <div className="item" key={task.id}>
-            {task.title}
-          </div>
-        );
-      })}
+      {tasks &&
+        tasks.map((task) => {
+          return (
+            <div className="item" key={task.id}>
+              {task.title}
+            </div>
+          );
+        })}
     </div>
   );
 };

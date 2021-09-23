@@ -13,9 +13,3 @@ Button {
   cursor: pointer;
   margin: 0px 10px;
 }
-Button.primary {
-  background: #c47344;
-}
-Button.secondary {
-  background: #f9a38f;
-}
