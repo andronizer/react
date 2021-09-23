@@ -48,6 +48,7 @@ const Dashboard = () => {
         console.log(res);
         dispatch(appendDashboards(res));
         fetchData();
+        setInputValue("");
       })
       .catch((error) => {
         console.log(error);

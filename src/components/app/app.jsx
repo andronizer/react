@@ -8,7 +8,7 @@ import "./app.css";
 const App = () => {
   return (
     <>
-      <Route exact path={"/login"} render={() => <LoginForm />} />
+      <Route path={"/login"} render={() => <LoginForm />} />
       <Route path={"/main/:dashboardId"} render={() => <Dashboard />} />
       <Route path={"/signup"} render={() => <Signup />} />
       <Redirect to={"/main/all"} from={"/"} />
