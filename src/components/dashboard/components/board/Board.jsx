@@ -7,18 +7,17 @@ import "./board.css";
 import { updateDashboard } from "../../../../store/reducers/appSlice";
 
 const Board = ({ dashboard, circleHandle }) => {
-  const [columns, setColumns] = useState(dashboard.columns);
   const dispatch = useDispatch();
+  const { columns, id, title, isOwner, joined } = dashboard;
 
   const handleAddColumn = () => {
     apiService
-      .post(`/api/dashboard/${dashboard.id}/column`, { title: "new column" })
+      .post(`/api/dashboard/${id}/column`, { title: "new column" })
       .then((res) => {
-        setColumns([...dashboard.columns, res]);
         dispatch(
           updateDashboard({
             ...dashboard,
-            columns: [...dashboard.columns, res],
+            columns: [...columns, res],
           })
         );
       })
@@ -26,30 +25,30 @@ const Board = ({ dashboard, circleHandle }) => {
   };
 
   const joinToDashboard = useCallback(() => {
-    apiService.post(`/api/dashboard/${dashboard.id}/user`).then((res) => {
+    apiService.post(`/api/dashboard/${id}/user`).then((res) => {
       console.log(res);
-      circleHandle(dashboard.id);
+      circleHandle(id);
     });
   }, []);
 
   const unjoinFromDashboard = useCallback(() => {
     apiService
-      .delete(`/api/dashboard/${dashboard.id}/user`, {
-        DashboardId: dashboard.id,
+      .delete(`/api/dashboard/${id}/user`, {
+        DashboardId: id,
       })
       .then((res) => {
         console.log(res);
-        circleHandle(dashboard.id, false);
+        circleHandle(id, false);
       });
   }, []);
 
   return (
-    <div className="boardWrapper" title={dashboard.title}>
+    <div className="boardWrapper" title={title}>
       <div className="boardHeader">
-        <h2 className="boardTitle">{dashboard.title}</h2>
-        {!dashboard.isOwner ? (
+        <h2 className="boardTitle">{title}</h2>
+        {!isOwner ? (
           <div>
-            {dashboard.joined ? null : (
+            {joined ? null : (
               <button className="joinButton" onClick={joinToDashboard}>
                 join
               </button>
@@ -62,13 +61,13 @@ const Board = ({ dashboard, circleHandle }) => {
       </div>
 
       <div className="columnsWrapper">
-        {dashboard.columns &&
-          dashboard.columns.map((column) => {
+        {columns &&
+          columns.map((column) => {
             return (
               <Column key={column.id} dashboard={dashboard} column={column} />
             );
           })}
-        {dashboard.joined === false ? null : (
+        {joined === false ? null : (
           <button className="addColumnButton" onClick={handleAddColumn}>
             + add column
           </button>

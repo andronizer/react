@@ -2,14 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuthenticated: localStorage.getItem("access_token"),
-  dashboards: [
-    {
-      id: 0,
-      title: "",
-      joined: true,
-      columns: [{ title: "", tasks: [] }],
-    },
-  ],
+  dashboards: [],
 };
 
 export const appSlice = createSlice({

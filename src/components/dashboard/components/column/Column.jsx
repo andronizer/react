@@ -10,6 +10,7 @@ const Column = ({ dashboard, column }) => {
   const [tasks, setTasks] = useState(column.tasks || []);
   const [titleFormSubmit, setTitleFormSubmit] = useState(false);
   const dispatch = useDispatch();
+  const { id, columns, joined } = dashboard;
 
   const AddTodo = useCallback(() => {
     apiService
@@ -28,14 +29,14 @@ const Column = ({ dashboard, column }) => {
 
   const onSubmitHandler = useCallback(() => {
     apiService
-      .put(`/api/dashboard/${dashboard.id}/column/${column.id}`, {
+      .put(`/api/dashboard/${id}/column/${column.id}`, {
         title: inputValue,
       })
       .then((response) => {
         dispatch(
           updateDashboard({
             ...dashboard,
-            columns: dashboard.columns.map((e) => {
+            columns: columns.map((e) => {
               if (e.id === response.id) {
                 return response;
               }
@@ -66,7 +67,7 @@ const Column = ({ dashboard, column }) => {
               onChange={(e) => setInputValue(e.target.value)}
               value={inputValue}
             />
-            {dashboard.joined === false ? null : (
+            {joined === false ? null : (
               <button
                 className="columnButton"
                 type="submit"
@@ -89,7 +90,7 @@ const Column = ({ dashboard, column }) => {
           }}
           value={taskInput}
         />
-        {dashboard.joined === false ? null : (
+        {joined === false ? null : (
           <button onClick={AddTodo} className="columnButton" type={"submit"}>
             +
           </button>
